@@ -2,75 +2,47 @@ import java.util.*;
 
 class GraphImplementation {
     // adjacency list
-    private LinkedList<Integer> adj[];
+    
+	public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter number of vertices");
+		
+		int v = sc.nextInt();
+		GraphImplementation graph = new GraphImplementation();
+		List<List<Integer>> adj=new ArrayList<>();
+		for (int i = 0; i < v; i++) {
+			adj.add(new ArrayList<>());
+		}
+		System.out.println("Enter number of edges ");
+		int e=sc.nextInt();
+		System.out.println("Enter source and destination");
+            for(int i = 0; i<e; i++) {
+                int source = sc.nextInt();
+                int destination = sc.nextInt();
+                
+                graph.addEdge(source, destination,adj);
+            }
+		System.out.println("the graph is ");
+		graph.printGraph(adj);
+		
+		
+		sc.close();
+	}
 
-    public GraphImplementation() {
-    }
+	private void printGraph(List<List<Integer>> adj) {
+		for (int i = 0; i < adj.size(); i++) {
+			System.out.println("Adjacency list of vertex "+i);
+			System.out.print("head");
+			for (int j = 0; j < adj.get(i).size(); j++) {
+				System.out.print(" -> "+adj.get(i).get(j));
+			}
+			System.out.println();
+		}
+	}
 
-    GraphImplementation(int v) {
-
-        // initialize adjacency list
-        adj = new LinkedList[v];
-        for (int i = 0; i < v; i++) {
-            adj[i] = new LinkedList<Integer>();
-        }
-    }
-
-    public void addEdge(int sr, int dr) {
-        // adding edges
-        adj[sr].add(dr);
-        adj[dr].add(sr);
-    }
-    //get min distance from sr to dr
-    public int bfs(int sr,int dr)
-    {
-       boolean visited[]=new boolean[adj.length];
-       int parent[]=new int[adj.length];
-       Queue<Integer> queue=new LinkedList<>();
-       queue.offer(sr);
-       parent[sr]=-1;
-       visited[sr]=true;
-       while(!queue.isEmpty())
-       {
-           int curr=queue.poll();
-           if(curr==dr){
-               break;
-           }
-           //traverse through the neighbors of current element
-           for (int neighbor : adj[curr]) {
-               if(!visited[neighbor])
-               {
-                   visited[neighbor]=true;
-                   queue.offer(neighbor);
-                   parent[neighbor]=curr;
-               }
-           }
-       }
-       int cur=dr;
-       int distance=0;
-       while(parent[cur]!=-1)
-       {
-           System.out.print(cur+" -> ");
-          cur= parent[cur];
-           distance++;
-       }
-       return distance;
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("enter number of vertices and edges");
-        int v = sc.nextInt();
-        int e = sc.nextInt();
-        GraphImplementation graph = new GraphImplementation(v);
-        System.out.println("enter "+e+"no of edges");
-        for (int i = 0; i < e; i++) {
-            int sr=sc.nextInt();
-            int dr=sc.nextInt();
-            graph.addEdge(sr, dr);
-        }
-        System.out.println("enter source and destination");
-        System.out.println("min distance is "+graph.bfs(
-            sc.nextInt(), sc.nextInt())+" ");
-
-    }
+	private void addEdge(int source, int destination, List<List<Integer>> adj) {
+		adj.get(source).add(destination);
+		adj.get(destination).add(source);
+	}
 }
