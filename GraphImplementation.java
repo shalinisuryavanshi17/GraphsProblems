@@ -33,13 +33,43 @@ class GraphImplementation {
 
 			graph.addEdge(source, destination, adj);
 		}
-		graph.bfsTraversal(v, adj);
+		// graph.bfsTraversal(v, adj);
 		graph.dfsTraversal(v, adj);
-		System.out.println("is there cycle in graph ? " + graph.cycleUsingBFS(v, adj));
-		System.out.println("the graph is ");
-		graph.printGraph(adj);
+		// System.out.println("is there cycle in graph (BFS) ? " +
+		// graph.cycleUsingBFS(v, adj));
+		System.out.println("is there cycle in graph (DFS) ? " + graph.cycleUsingDFS(v, adj));
+		// System.out.println("the graph is ");
+		// graph.printGraph(adj);
 
 		sc.close();
+	}
+
+	private boolean cycleUsingDFS(int v, List<List<Integer>> adj) {
+		boolean visited[] = new boolean[v];
+		for (int i = 0; i < v; i++) {
+			if (!visited[i]) {
+				if (checkCycleDFS(i, -1, adj, visited)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean checkCycleDFS(int node, int parent, List<List<Integer>> adj, boolean[] visited) {
+
+		visited[node] = true;
+		for (Integer neighbor : adj.get(node)) {
+			if (!visited[neighbor]) {
+				checkCycleDFS(neighbor, node, adj, visited);
+			} else if (neighbor != parent) {
+				return true;
+			}
+
+		}
+
+		return false;
+
 	}
 
 	private boolean cycleUsingBFS(int v, List<List<Integer>> adj) {
