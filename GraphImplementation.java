@@ -1,5 +1,15 @@
 import java.util.*;
 
+class Node {
+	int first;
+	int second;
+
+	Node(int f, int s) {
+		this.first = f;
+		this.second = s;
+	}
+}
+
 class GraphImplementation {
 	// adjacency list
 
@@ -23,71 +33,99 @@ class GraphImplementation {
 
 			graph.addEdge(source, destination, adj);
 		}
-		graph.bfsTraversal(v,adj);
-		graph.dfsTraversal(v,adj);
-		System.out.println("\nthe graph is ");
+		graph.bfsTraversal(v, adj);
+		graph.dfsTraversal(v, adj);
+		System.out.println("is there cycle in graph ? " + graph.cycleUsingBFS(v, adj));
+		System.out.println("the graph is ");
 		graph.printGraph(adj);
 
 		sc.close();
 	}
 
-private void dfsTraversal(int v, List<List<Integer>> adj) {
-	boolean visited[]=new boolean[v];
-	List<Integer> dfs=new ArrayList<>();
-	for (int i = 0; i < v; i++) {
-		if(!visited[i])
-		{
-			dfs(i,adj,visited,dfs);
+	private boolean cycleUsingBFS(int v, List<List<Integer>> adj) {
+		boolean visited[] = new boolean[v];
+		Queue<Node> q = new LinkedList<>();
+		for (int i = 0; i < v; i++) {
+			if (!visited[i]) {
+				if (checkCycleBFS(i, adj, visited, q)) {
+					return true;
+				}
+			}
 		}
-	}
-	System.out.println("dfs traversal is "+dfs);
+		return false;
 	}
 
-private void dfs(int i, List<List<Integer>> adj, boolean[] visited,List<Integer> dfs) {
-    
-    visited[i]=true;
-	dfs.add(i);
-	for (Integer neighbor: adj.get(i)) {
-		if(!visited[neighbor]){
-			dfs(neighbor, adj, visited,dfs);
+	private boolean checkCycleBFS(int i, List<List<Integer>> adj, boolean[] visited, Queue<Node> q) {
+		q.offer(new Node(i, -1));
+		visited[i] = true;
+		while (!q.isEmpty()) {
+			Integer node = q.peek().first;
+			Integer par = q.peek().second;
+			q.remove();
+			for (Integer neighbor : adj.get(node)) {
+				if (!visited[neighbor]) {
+					q.offer(new Node(neighbor, node));
+					visited[neighbor] = true;
+				} else if (par != neighbor) {
+					return true;
+				}
+			}
 		}
-		
+		return false;
+
 	}
-}
+
+	private void dfsTraversal(int v, List<List<Integer>> adj) {
+		boolean visited[] = new boolean[v];
+		List<Integer> dfs = new ArrayList<>();
+		for (int i = 0; i < v; i++) {
+			if (!visited[i]) {
+				dfs(i, adj, visited, dfs);
+			}
+		}
+		System.out.println("dfs traversal is " + dfs);
+	}
+
+	private void dfs(int i, List<List<Integer>> adj, boolean[] visited, List<Integer> dfs) {
+
+		visited[i] = true;
+		dfs.add(i);
+		for (Integer neighbor : adj.get(i)) {
+			if (!visited[neighbor]) {
+				dfs(neighbor, adj, visited, dfs);
+			}
+
+		}
+	}
 
 	private void bfsTraversal(int v, List<List<Integer>> adj) {
-		//step1 create visited array
-		boolean visited[]=new boolean[v];
+		// step1 create visited array
+		boolean visited[] = new boolean[v];
 		for (int i = 0; i < v; i++) {
-			if(!visited[i])
-			{
-				bfs(i,adj,visited);
+			if (!visited[i]) {
+				bfs(i, adj, visited);
 			}
 		}
 	}
 
-
-
-private void bfs(int sr, List<List<Integer>> adj, boolean[] visited) {
-      //create queue
-	  Queue<Integer> q=new LinkedList<>();
-	  List<Integer> bfs=new ArrayList<>();
-	  q.offer(sr);
-	  visited[sr]=true;
-	  System.out.println("bfs traversal is ");
-	  while(!q.isEmpty())
-	  {
-		  Integer parent=q.poll();
-		  bfs.add(parent);
-		  for (Integer neighbor : adj.get(parent)) {
-			  if(!visited[neighbor])
-			  {
-				  q.offer(neighbor);
-				  visited[neighbor]=true;
-			  }
-		  }
-	  }
-       System.out.println(bfs);
+	private void bfs(int sr, List<List<Integer>> adj, boolean[] visited) {
+		// create queue
+		Queue<Integer> q = new LinkedList<>();
+		List<Integer> bfs = new ArrayList<>();
+		q.offer(sr);
+		visited[sr] = true;
+		System.out.println("bfs traversal is ");
+		while (!q.isEmpty()) {
+			Integer parent = q.poll();
+			bfs.add(parent);
+			for (Integer neighbor : adj.get(parent)) {
+				if (!visited[neighbor]) {
+					q.offer(neighbor);
+					visited[neighbor] = true;
+				}
+			}
+		}
+		System.out.println(bfs);
 	}
 
 	private void printGraph(List<List<Integer>> adj) {
