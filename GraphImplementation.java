@@ -24,11 +24,36 @@ class GraphImplementation {
 			graph.addEdge(source, destination, adj);
 		}
 		graph.bfsTraversal(v,adj);
+		graph.dfsTraversal(v,adj);
 		System.out.println("\nthe graph is ");
 		graph.printGraph(adj);
 
 		sc.close();
 	}
+
+private void dfsTraversal(int v, List<List<Integer>> adj) {
+	boolean visited[]=new boolean[v];
+	List<Integer> dfs=new ArrayList<>();
+	for (int i = 0; i < v; i++) {
+		if(!visited[i])
+		{
+			dfs(i,adj,visited,dfs);
+		}
+	}
+	System.out.println("dfs traversal is "+dfs);
+	}
+
+private void dfs(int i, List<List<Integer>> adj, boolean[] visited,List<Integer> dfs) {
+    
+    visited[i]=true;
+	dfs.add(i);
+	for (Integer neighbor: adj.get(i)) {
+		if(!visited[neighbor]){
+			dfs(neighbor, adj, visited,dfs);
+		}
+		
+	}
+}
 
 	private void bfsTraversal(int v, List<List<Integer>> adj) {
 		//step1 create visited array
@@ -40,6 +65,8 @@ class GraphImplementation {
 			}
 		}
 	}
+
+
 
 private void bfs(int sr, List<List<Integer>> adj, boolean[] visited) {
       //create queue
