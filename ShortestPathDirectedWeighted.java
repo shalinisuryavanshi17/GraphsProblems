@@ -38,7 +38,7 @@ public class ShortestPathDirectedWeighted {
 
     }
 
-    void topologicalSortUtil(int node, Boolean visited[], Stack stack, List<List<Pair>> adj) {
+    void topologicalSortUtil(int node, Boolean visited[], Stack<Integer> stack, List<List<Pair>> adj) {
 
         visited[node] = true;
         for (Pair it : adj.get(node)) {
