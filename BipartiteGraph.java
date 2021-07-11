@@ -21,8 +21,40 @@ public class BipartiteGraph {
 			graph.addEdge(source, destination, adj);
 		}
         System.out.println(graph.checkBipartite(adj,v));
+        System.out.println(graph.checkBipartiteUsingDFS(adj,v));
         sc.close();
 		
+    }
+    private boolean checkBipartiteUsingDFS(List<List<Integer>> adj, int v) {
+        int color[]=new int[v];
+        Arrays.fill(color, -1);//fill with -1 
+        for (int i = 0; i < v; i++) {
+            if(!isBipartiteGraphDFS(i,adj,color))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    private boolean isBipartiteGraphDFS(int i, List<List<Integer>> adj, int[] color) {
+
+        for (Integer neigh: adj.get(i)) {
+            if(color[neigh]==-1)
+            {
+             color[neigh]=1-color[i];
+             if(!isBipartiteGraph(neigh, adj, color))
+             {
+                 return false;
+             }   
+            }
+            else if(color[neigh]==color[i])
+            {
+                return false;
+            }
+
+        }
+        return true;
     }
     private boolean checkBipartite(List<List<Integer>> adj, int v) {
         int color[]=new int[v];
