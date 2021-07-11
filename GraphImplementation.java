@@ -110,10 +110,30 @@ class GraphImplementation {
 		List<Integer> dfs = new ArrayList<>();
 		for (int i = 0; i < v; i++) {
 			if (!visited[i]) {
-				dfs(i, adj, visited, dfs);
+				//dfs(i, adj, visited, dfs);
+				dfsUsingStack(i,adj,visited,dfs);
 			}
 		}
 		System.out.println("dfs traversal is " + dfs);
+	}
+
+	private void dfsUsingStack(int i, List<List<Integer>> adj, boolean[] visited, List<Integer> dfs) {
+		Stack<Integer> s=new Stack<>();
+		s.push(i);
+		visited[i]=true;
+		while(!s.isEmpty())
+		{
+			Integer neighbor=s.pop();
+			dfs.add(neighbor);
+			for (Integer neigh : adj.get(neighbor)) {
+				if(!visited[neigh])
+				{
+					s.push(neigh);
+					visited[neigh]=true;
+				}
+			}
+		}
+		
 	}
 
 	private void dfs(int i, List<List<Integer>> adj, boolean[] visited, List<Integer> dfs) {
