@@ -89,7 +89,7 @@ public class BipartiteGraph {
         
         return true;
     }
-    private void addEdge(int source, int destination, List<List<Integer>> adj) {
+    void addEdge(int source, int destination, List<List<Integer>> adj) {
 		adj.get(source).add(destination);
 		adj.get(destination).add(source);
 	}
