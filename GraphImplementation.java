@@ -33,13 +33,13 @@ class GraphImplementation {
 
 			graph.addEdge(source, destination, adj);
 		}
-		// graph.bfsTraversal(v, adj);
+		graph.bfsTraversal(v, adj);
 		graph.dfsTraversal(v, adj);
-		// System.out.println("is there cycle in graph (BFS) ? " +
-		// graph.cycleUsingBFS(v, adj));
+		System.out.println("is there cycle in graph (BFS) ? " +
+		graph.cycleUsingBFS(v, adj));
 		System.out.println("is there cycle in graph (DFS) ? " + graph.cycleUsingDFS(v, adj));
-		// System.out.println("the graph is ");
-		// graph.printGraph(adj);
+		System.out.println("the graph is ");
+		graph.printGraph(adj);
 
 		sc.close();
 	}
@@ -110,7 +110,7 @@ class GraphImplementation {
 		List<Integer> dfs = new ArrayList<>();
 		for (int i = 0; i < v; i++) {
 			if (!visited[i]) {
-				//dfs(i, adj, visited, dfs);
+				dfs(i, adj, visited, dfs);
 				dfsUsingStack(i,adj,visited,dfs);
 			}
 		}
