@@ -35,6 +35,11 @@ class GraphImplementation {
 		}
 		graph.bfsTraversal(v, adj);
 		graph.dfsTraversal(v, adj);
+		Queue<Integer> q=new LinkedList<>();
+		q.add(0);
+		boolean visited[]=new boolean[v];
+		System.out.println("bfs using recursion ");
+		graph.bfsRecursion(v,adj,q,visited);
 		System.out.println("is there cycle in graph (BFS) ? " +
 		graph.cycleUsingBFS(v, adj));
 		System.out.println("is there cycle in graph (DFS) ? " + graph.cycleUsingDFS(v, adj));
@@ -42,6 +47,22 @@ class GraphImplementation {
 		graph.printGraph(adj);
 
 		sc.close();
+	}
+
+	private void bfsRecursion(int v, List<List<Integer>> adj, Queue<Integer> q,boolean visited[]) {
+		if (q.isEmpty()) {
+            return;
+        }
+        int node = q.poll();
+        visited[node] = true;
+        System.out.print(v + " ");
+        for (int u : adj.get(node)) {
+            if (!visited[u]) {
+                visited[u] = true;
+                q.add(u);
+            }
+        }
+		bfsRecursion(v, adj, q,visited);
 	}
 
 	private boolean cycleUsingDFS(int v, List<List<Integer>> adj) {
